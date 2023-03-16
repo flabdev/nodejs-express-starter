@@ -12,7 +12,7 @@
     "prepare": "husky install"
   },
   "lint-staged": {
-    "**/*.{js}": [
+    "**/*.js": [
       "npm run lint"
     ]
   },
