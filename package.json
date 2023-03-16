@@ -9,16 +9,14 @@
     "dev": "nodemon server.js",
     "lint-check": "eslint .",
     "lint": "eslint --fix .",
-    "pretty": "prettier --write .",
     "prepare": "husky install"
   },
   "lint-staged": {
     "**/*.{js}": [
-      "npm run lint",
-      "prettier --write"
+      "npm run lint"
     ]
   },
-  "author": "",
+  "author": "sai krishna thatipamula",
   "license": "ISC",
   "dependencies": {
     "compression": "^1.7.4",
@@ -31,7 +29,6 @@
     "jsonwebtoken": "^9.0.0",
     "mongoose": "^7.0.1",
     "morgan": "^1.10.0",
-    "prettier": "^2.8.4",
     "xss-clean": "^0.1.1"
   },
   "devDependencies": {

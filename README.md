@@ -34,7 +34,7 @@ npm run dev
 ```
 
 #### ES-LINT configuration
-This Project uses : *ES-LINT, Prettier*
+This Project uses : *ES-LINT*
 
 ESLint is a Javascript tool used for linting common errors and anti-patterns in your code. It is used by javascript devs all around the world.
 
@@ -46,13 +46,6 @@ npm run lint-check
 npm run lint
 ```
 
-
-Prettier is an opinionated code formatter.
-
-```
-# code formatting
-npm run pretty
-```
 
 #### SonarQube configuration
 
