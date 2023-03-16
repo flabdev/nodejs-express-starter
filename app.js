@@ -7,8 +7,6 @@ const xss = require('xss-clean');
 const compression = require('compression');
 const cors = require('cors');
 
-const add = 5;
-
 const AppError = require('./utils/appError');
 const userRouter = require('./routes/userRoute');
 
@@ -36,8 +34,8 @@ if (process.env.NODE_ENV === 'development') {
 }
 
 // Body parser, reading data from body into req.body
-app.use(express.json({ limit: '50kb' }));
-app.use(express.urlencoded({ extended: true, limit: '50kb' }));
+app.use(express.json({ limit: '10mb' }));
+app.use(express.urlencoded({ extended: true, limit: '10mb' }));
 
 // Data sanitization against NoSQL query injection
 app.use(mongoSanitize());
@@ -55,15 +53,19 @@ app.use('/api/v1/user', userRouter);
 
 // Error Handling Middleware
 app.use((req, res, next) => {
-  const error = new Error();
+  const error = new Error('Not found');
   error.status = 404;
-  error.message = 'Not Found';
   next(error);
 });
 
-app.use((err, req, res, next) => {
-  res.status(err.status || 500);
-  res.send({ message: err.message || 'Internal server error' });
+// error handler middleware
+app.use((error, req, res, next) => {
+  res.status(error.statusCode || 500).send({
+    error: {
+      status: error.status || 500,
+      message: error.message || 'Internal Server Error',
+    },
+  });
 });
 
 app.all('*', (req, res, next) => {
