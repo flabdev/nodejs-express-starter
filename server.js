@@ -1,20 +1,36 @@
 const mongoose = require('mongoose');
-require('dotenv').config();
+const http = require('http');
+const config = require('./config/index');
 
 const app = require('./app');
 
-const port = process.env.PORT || 5000;
-const server = app.listen(port, () => {
+const port = config.Server.PORT || 5000;
+
+const server = http.createServer(app);
+
+app.listen(port, () => {
   console.log(`App running on port ${port}...`);
 });
-const DB = process.env.DATABASE;
 
-mongoose
-  .connect(DB, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-  })
-  .then(() => console.log('Db Connection successful'));
+const DB = config.Database.URI;
+
+mongoose.connect(DB, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+});
+
+mongoose.connection.on('error', err => {
+  console.log('err', err);
+});
+
+mongoose.connection.on('connected', () => {
+  console.log('mongoose is connected...');
+});
+
+mongoose.connection.on('disconnected', () => {
+  console.log('mongoose is disconnected...');
+});
+
 mongoose.Promise = global.Promise;
 
 process.on('SIGTERM', () => {

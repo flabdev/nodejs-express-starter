@@ -2,7 +2,7 @@ const AppError = require('../utils/appError');
 
 const { NO_DOCUMENT } = require('../constants/index');
 
-exports.deleteOne = (Model) => async (req, res, next) => {
+exports.deleteOne = Model => async (req, res, next) => {
   try {
     const doc = await Model.findByIdAndDelete(req.params.id);
     if (!doc) {
@@ -20,7 +20,7 @@ exports.deleteOne = (Model) => async (req, res, next) => {
   }
 };
 
-exports.updateOne = (Model) => async (req, res, next) => {
+exports.updateOne = Model => async (req, res, next) => {
   try {
     const doc = await Model.findByIdAndUpdate(req.params.id, req.body, {
       new: true,
@@ -43,7 +43,7 @@ exports.updateOne = (Model) => async (req, res, next) => {
   }
 };
 
-exports.createOne = (Model) => async (req, res, next) => {
+exports.createOne = Model => async (req, res) => {
   try {
     const doc = await Model.create(req.body);
 
@@ -83,7 +83,7 @@ exports.getOne = (Model, popOptions) => async (req, res, next) => {
   }
 };
 
-exports.getAll = (Model, popOptions) => async (req, res, next) => {
+exports.getAll = (Model, popOptions) => async (req, res) => {
   try {
     let query = Model.find();
     if (popOptions) query = query.populate(popOptions);

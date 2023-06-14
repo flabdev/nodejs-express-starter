@@ -1,7 +1,7 @@
 const User = require('../models/userModel');
 const AppError = require('../utils/appError');
 
-exports.signup = async (req, res, next) => {
+exports.signup = async (req, res) => {
   try {
     const newUser = await User.create({
       firstName: req.body.firstName,
@@ -33,7 +33,7 @@ exports.login = async (req, res, next) => {
       return next(new AppError('Please provide email and password!', 400));
     }
     // 2) Check if user exists && password is correct
-    const user = await User.findOne({ email: email, password: password });
+    const user = await User.findOne({ email, password });
 
     res.status(200).json({
       status: 'success',

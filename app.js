@@ -49,7 +49,7 @@ app.get('/', (req, res) => {
 });
 
 // 3) ROUTES
-app.use('/api/v1/user', userRouter);
+app.use('/api/users', userRouter);
 
 // Error Handling Middleware
 app.use((req, res, next) => {
@@ -59,7 +59,7 @@ app.use((req, res, next) => {
 });
 
 // error handler middleware
-app.use((error, req, res, next) => {
+app.use((error, req, res) => {
   res.status(error.statusCode || 500).send({
     error: {
       status: error.status || 500,
