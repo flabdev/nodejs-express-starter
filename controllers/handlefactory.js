@@ -1,27 +1,21 @@
 const AppError = require('../utils/appError');
+const catchAsync = require('../utils/catchAsync');
+const { NO_DOCUMENT, DOCUMENT_DELETED } = require('../constants/index');
 
-const { NO_DOCUMENT } = require('../constants/index');
-
-exports.deleteOne = Model => async (req, res, next) => {
-  try {
+exports.deleteOne = Model =>
+  catchAsync(async (req, res, next) => {
     const doc = await Model.findByIdAndDelete(req.params.id);
     if (!doc) {
       return next(new AppError(NO_DOCUMENT, 404));
     }
     res.status(204).json({
       status: 'success',
-      data: null,
+      message: DOCUMENT_DELETED,
     });
-  } catch (err) {
-    res.status(400).json({
-      status: 'fail',
-      message: err,
-    });
-  }
-};
+  });
 
-exports.updateOne = Model => async (req, res, next) => {
-  try {
+exports.updateOne = Model =>
+  catchAsync(async (req, res, next) => {
     const doc = await Model.findByIdAndUpdate(req.params.id, req.body, {
       new: true,
       runValidators: true,
@@ -31,39 +25,23 @@ exports.updateOne = Model => async (req, res, next) => {
     }
     res.status(200).json({
       status: 'success',
-      data: {
-        doc,
-      },
+      data: doc,
     });
-  } catch (err) {
-    res.status(400).json({
-      status: 'fail',
-      message: err,
-    });
-  }
-};
+  });
 
-exports.createOne = Model => async (req, res) => {
-  try {
+exports.createOne = Model =>
+  catchAsync(async (req, res) => {
     const doc = await Model.create(req.body);
-
-    res.status(201).json({
+    res.status(200).json({
       status: 'success',
-      data: {
-        doc,
-      },
+      data: doc,
     });
-  } catch (err) {
-    res.status(400).json({
-      status: 'fail',
-      message: err,
-    });
-  }
-};
+  });
 
-exports.getOne = (Model, popOptions) => async (req, res, next) => {
-  try {
-    let query = Model.findById(req.params.id);
+// getOne with Populate
+exports.getOne = (Model, popOptions) =>
+  catchAsync(async (req, res, next) => {
+    let query = await Model.findById(req.params.id);
     if (popOptions) query = query.populate(popOptions);
     const doc = await query;
     if (!doc) {
@@ -71,34 +49,19 @@ exports.getOne = (Model, popOptions) => async (req, res, next) => {
     }
     res.status(200).json({
       status: 'success',
-      data: {
-        doc,
-      },
+      data: doc,
     });
-  } catch (err) {
-    res.status(400).json({
-      status: 'fail',
-      message: err,
-    });
-  }
-};
+  });
 
-exports.getAll = (Model, popOptions) => async (req, res) => {
-  try {
-    let query = Model.find();
+// getAll with Populate
+exports.getAll = (Model, popOptions) =>
+  catchAsync(async (req, res) => {
+    let query = Model.find({});
     if (popOptions) query = query.populate(popOptions);
     const doc = await query;
     res.status(200).json({
       status: 'success',
       results: doc.length,
-      data: {
-        doc,
-      },
+      data: doc,
     });
-  } catch (err) {
-    res.status(400).json({
-      status: 'fail',
-      message: err,
-    });
-  }
-};
+  });

@@ -1,15 +1,22 @@
 const mongoose = require('mongoose');
 const http = require('http');
 const config = require('./config/index');
+const utils = require('./utils/logger');
 
 const app = require('./app');
 
 const port = config.Server.PORT || 5000;
 
 const server = http.createServer(app);
+server.listen(port);
 
-app.listen(port, () => {
-  console.log(`App running on port ${port}...`);
+server.on('error', (err, req) => {
+  utils.writeErrorLog(err, req);
+  console.error(err);
+});
+
+server.on('listening', () => {
+  console.log(`Server listening on port ${port}`);
 });
 
 const DB = config.Database.URI;
@@ -19,7 +26,8 @@ mongoose.connect(DB, {
   useUnifiedTopology: true,
 });
 
-mongoose.connection.on('error', err => {
+mongoose.connection.on('error', (err, req) => {
+  utils.writeErrorLog(err, req);
   console.log('err', err);
 });
 
@@ -39,3 +47,5 @@ process.on('SIGTERM', () => {
     console.log('Process terminated!');
   });
 });
+
+module.exports = server;

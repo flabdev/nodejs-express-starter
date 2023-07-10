@@ -1,0 +1,32 @@
+version: '3.9'
+
+services:
+  mongo_db:
+    container_name: db_container
+    image: mongo:latest
+    restart: always
+    volumes:
+      - mongo_data:/data/db
+
+    env_file:
+      - ./.env
+
+  api:
+    build: .
+    ports:  
+      - 4000:4000
+    environment:
+      PORT: ${PORT}
+      MONGODB_URI: ${MONGODB_URI}
+      DB_NAME: ${DB_NAME}
+    depends_on: 
+      - mongo_db
+
+  tests:
+    build: .
+    command: npm test
+    volumes:
+      - .:/app
+
+volumes:
+  mongo_data: {}

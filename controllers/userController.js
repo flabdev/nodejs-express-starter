@@ -1,8 +1,8 @@
-const UserModel = require('../models/userModel');
+const User = require('../models/userModel');
 const factory = require('./handlefactory');
 
-exports.getAllUsers = factory.getAll(UserModel);
-exports.getUser = factory.getOne(UserModel);
-exports.createUser = factory.createOne(UserModel);
-exports.updateUser = factory.updateOne(UserModel);
-exports.deleteUser = factory.deleteOne(UserModel);
+exports.createUser = factory.createOne(User);
+exports.getAllUsers = factory.getAll(User);
+exports.getUser = factory.getOne(User);
+exports.updateUser = factory.updateOne(User);
+exports.deleteUser = factory.deleteOne(User);
