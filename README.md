@@ -36,16 +36,14 @@ Clone the project to specified folder and import it into Your Favourite IDE
 
 ### Setting Up Local Properties File
 
-Create `.env` file in the root floder and the following
+Create `.env` file in the root folder and the following
 
 ```
-PORT=3000
-MONGODB_URI=Database_URL
-DB_NAME=DB_NAME
-NODE_ENV=developement || production
+PORT= 3000
+MONGODB_URI= mongodb_local_connection_string
+DB_NAME= DB_NAME
+NODE_ENV= developement || production
 
-<!-- MONGODB_URI is from the docker
-     mongodb://mongo_db:27017 -->
 ```
 
 Run the following commands in terminal:
@@ -89,6 +87,14 @@ npm run lint
 - SonarJS rules are added in the ESLint to detect bugs and suspicious patterns in code .
 
 ## Dockerizing NodeJs-MongoDB project
+
+change `.env` file in the root folder
+
+```
+MONGODB_URI= mongodb://mongo_db:27017
+
+<!-- MONGODB_URI is from the docker -->
+```
 
 First, build the container images and create the services by running docker-compose up with the -d flag, which will then run the application and database containers in the background:
 
