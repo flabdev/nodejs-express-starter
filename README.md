@@ -42,7 +42,7 @@ Create `.env` file in the root folder and the following
 PORT= 3000
 MONGODB_URI= mongodb_local_connection_string
 DB_NAME= DB_NAME
-NODE_ENV= developement || production
+NODE_ENV= development || production
 
 ```
 
